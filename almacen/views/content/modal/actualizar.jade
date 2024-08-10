@@ -1,0 +1,47 @@
+#actualizarModal.modal.fade(tabindex='-1' aria-labelledby='actualizarModalLabel' aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          if nombreTabla==='producto'
+            h1#actualizarModalLabel.modal-title.fs-5 Actualizar Producto
+            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+
+          else 
+              h1#actualizarModalLabel.modal-title.fs-5 Actualizar Categoria
+              button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          
+          if nombreTabla==='producto'
+            //ACTUALIZAR/ EL FORMULARIO VA ACA
+            form(action="/Actualizar_Producto", method="put") 
+            
+              label(for="producto") Nombre 
+              input#productoNombre.form-control(type='text' aria-describedby='passwordHelpInline' placeholder="Nombre" name= 'producto'  ) 
+              
+              label#cod(for="codigo") Codigo
+              input#codigoProducto.form-control(type='text' aria-describedby='passwordHelpInline' placeholder="Código"  name="codigo") 
+              
+              label(for="precio") Precio
+              input#precioProducto.form-control(type='text' aria-describedby='passwordHelpInline' placeholder="Precio" name="precio")
+              
+              label(for="stock") Stock
+              input#stockProducto.form-control(type='text' aria-describedby='passwordHelpInline' placeholder="Stock" name="stock")
+              
+              label(for="categoria") Categoria
+              select#idCategoria.form-select(name='idCategoria')
+                each item in categoria
+                    each val, key in item
+                        option(value=key) #{val}
+  
+          else
+            form(action="/Actualizar_categoria", method="put") 
+              label#labelNombreCat(for="producto") Nombre 
+              input#nombre_cat_actualizar.form-control(type='text' aria-describedby='passwordHelpInline' placeholder="Nombre de Categoria"  ) 
+
+
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cerrar
+        if nombreTabla==="producto"
+          button.btn.btn-primary#actualizarCategoria(type='button' onclick="idProductoActualizar()") Save changes
+        else 
+          button.btn.btn-primary#actualizarCategoria(type='button' onclick="idCategoriaActualizar()") Save changes

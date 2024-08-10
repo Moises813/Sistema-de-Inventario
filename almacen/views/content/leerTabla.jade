@@ -1,0 +1,86 @@
+extends ../layout/layout
+
+block content
+    if isOk    
+        //-p LA TABLA A MOSTRAR ES : #{nombreTabla}
+
+        //filtros
+        .btn-group.dropend
+            button.btn.btn-secondary.dropdown-toggle(type='button' data-bs-toggle='dropdown' aria-expanded='false')
+                | Tablas
+            ul.dropdown-menu
+                // Dropdown menu links
+                li
+                    a.dropdown-item(onclick="accederProducto()") Producto
+                li
+                       a.dropdown-item(onclick="accedercategoria()") Categoria
+        
+        button.btn.btn-success(type='button' data-bs-toggle='modal' data-bs-target='#nuevaCatModal')  Nuevo
+         
+        include modal/nuevaCat
+        
+        if nombreTabla ==='producto'
+            button.btn.btn-primary(type='button', data-bs-toggle='modal', data-bs-target='#ModalBuscar') Buscar
+            include ./recurso/selecion
+
+        else 
+
+              
+
+
+        //bootstrap tabla
+        .row
+            .col12
+               table.table.table-bordered.border-primary 
+                    //table.table.table-dark
+                    thead
+                        tr
+                            each item in tHead
+                                th= item
+                            //
+                                <th>Categoría</th>
+                                <th>Nombre del Producto</th>
+                                <th>Cantidad</th>
+                                <th>Código</th>
+                                <th>Precio</th>
+                    tbody#tbody
+                        each item in tBody  
+                            tr
+                                - let _id = ''
+                                each val, key in item
+                                    if key == "_id"
+                                        - _id = val
+                                    if key == 'ultimo'
+                                        td 
+                                            button.btn.btn-success#showActualizar(type='button' data-bs-toggle='modal' data-bs-target='#actualizarModal' onclick="changeIdActualizar('"+ _id +"', '"+nombreTabla+"')" )
+                                                |Actualizar
+                                            include modal/actualizar
+                                        td
+                                            button.btn.btn-danger(type='submit') 
+                                                |Eliminar
+                                            
+                                    else   
+                                        td=val 
+
+
+        // boots de paginacion                            
+        nav(aria-label='Page navigation example')
+            ul.pagination.justify-content-end
+                li.page-item.disabled
+                    a.page-link(href='#' tabindex='-1') Previous
+                li.page-item
+                    a.page-link(href='#') 1
+                li.page-item
+                    a.page-link(href='#') 2
+                li.page-item
+                    a.page-link(href='#') 3
+                li.page-item
+                    a.page-link(href='#') Next
+
+                                
+    else 
+        script.
+            alert("Tabla no Encontrada")
+            window.location.href='http://localhost:3000/';
+                          
+                        
